@@ -31,5 +31,4 @@ while True:
         asyncio.run(tcp_echo_client())
         time.sleep(5)
     except:
-        print('Error occured during the loop')
         pass
