@@ -1,4 +1,4 @@
-import asyncio, time
+import socket, time
 
 try:
     f = open("onlined.txt", 'r')
@@ -8,27 +8,27 @@ except Exception:
     f.write('1')
     f.close()
 
-async def tcp_echo_client():
+def tcp_echo_client():
     with open("onlined.txt", 'r') as f:
         f = f.read()
     try:
-        reader, writer = await asyncio.open_connection('YOUR_IP', 'YOUR_PORT')
-        writer.close()
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.settimeout(2)
+        client_socket.connect(('YOUR_ADDRESS', YOUR_PORT))
         if f == '0':
             print('Server onlined')
             with open("onlined.txt", 'w') as f:
                 f.write('1')
-    except ConnectionRefusedError or ConnectionResetError:
+    except ConnectionRefusedError or ConnectionResetError or socket.timeout:
         if f == '1':
             print('Server offlined')
             with open("onlined.txt", 'w') as f:
                 f.write('0')
-        return
 
 
 while True:
     try:
-        asyncio.run(tcp_echo_client())
+        tcp_echo_client()
         time.sleep(5)
     except:
         pass
