@@ -15,12 +15,12 @@ def tcp_echo_client():
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.settimeout(2)
         client_socket.connect(('YOUR_ADDRESS', YOUR_PORT))
-        if f == '0':
+        if f.find('0') != -1:
             print('Server onlined')
             with open("onlined.txt", 'w') as f:
                 f.write('1')
     except ConnectionRefusedError or ConnectionResetError or socket.timeout:
-        if f == '1':
+        if f.find('1') != -1:
             print('Server offlined')
             with open("onlined.txt", 'w') as f:
                 f.write('0')
